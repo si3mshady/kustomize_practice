@@ -1,0 +1,55 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base/
+
+
+patches:
+ 
+   - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: react-weather-app
+        labels:
+          app: react-weather-app
+      spec:
+        replicas: 3
+        selector:
+          matchLabels:
+            app: react-weather-app
+        template:
+          metadata:
+            labels:
+              app: react-weather-app
+          spec:
+            containers:
+              - name: react-weather-app
+                image: si3mshady/weatherapp-wizkalifa:1
+                imagePullPolicy: Always
+                ports:
+                  - containerPort: 3000
+
+
+
+# si3mshady/weatherapp-matrix:1
+# si3mshady/weatherapp-spiderman:1
+#si3mshady/weatherapp-wizkalifa:1
+
+# elliottarnold.com        elliottarnold.com        elliottarnold.com        
+# elliottlamararnold.com   elliottlamararnold.com   elliottlamararnold.com   
+# lamararnold.com          lamararnold.com          lamararnold.com 
+
+#  kustomize build dev/ | kubectl apply --context elliottarnold.com  -f - 
+#  kustomize build stg/ | kubectl apply --context elliottlamararnold.com   -f - 
+#  kustomize build prod/ | kubectl apply --context lamararnold.com   -f - 
+
+
+# kubectl get svc --context elliottarnold.com
+# kubectl get svc --context elliottlamararnold.com 
+# kubectl get svc --context lamararnold.com 
+
+# kustomize build dev/| kubectl delete --force --grace-period=0 --context elliottarnold.com   -f - 
+# kustomize build stg/ | kubectl delete --force --grace-period=0 --context elliottlamararnold.com   -f - 
+# kustomize build prod/ | kubectl delete --force --grace-period=0 --context lamararnold.com    -f - 

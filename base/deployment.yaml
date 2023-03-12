@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-weather-app
+  labels:
+    app: react-weather-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-weather-app
+  template:
+    metadata:
+      labels:
+        app: react-weather-app
+    spec:
+      containers:
+        - name: react-weather-app
+          image: si3mshady/weatherapp-matrix:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-weather-app-service
+spec:
+  selector:
+     app: react-weather-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
